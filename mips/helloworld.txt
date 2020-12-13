@@ -1,0 +1,58 @@
+Just as we did with PythonTutor, we can "step" or go through 
+the code line-by-line to see what it does:
+
+The first line is a comment. Like in Python, everything after a '#' on a 
+line is ignored by the simulator.
+The next line says to add -13 to $sp, which stands for the stack pointer. 
+The stack is a region of memory where we can store information 
+(it is very common-- more details in future computer science courses).
+We are using 13, because to allow enough room to store the message 
+"Hello World" (plus a null character to signal the end of the string).
+The next line, SB $t0, 0($sp) moves the number we stored to the register 
+$t0 to the stack pointer address (with 0 offset). Since it is moving 
+a byte of information, SB stands for "Store Byte".
+We repeat with each letter in our message, loading it to register $t0 
+and then moving the contents of that register to the next empty memory location.
+ This contninues until the entire message is loaded.
+Next, we place 4 into the register $v0. That register is used to tell 
+the simulator what type of system call we would like to make. 
+4 is used for printing strings.
+Next, we place the location of the start of our message in $a0 
+(that's where the system looks for the location of the string to print).
+Lastly, we call syscall. Since we have loaded 4 into $v0, it will print 
+whatever string starts at the memory location in $a0.
+If the messages are not displaying, toggle to the "Log". You will see 
+the message in green on the stack.
+
+# Store 'Hello world!' at the top of the stack
+ADDI $sp, $sp, -13
+ADDI $t0, $zero, 72 # H
+SB $t0, 0($sp)
+ADDI $t0, $zero, 101 # e
+SB $t0, 1($sp)
+ADDI $t0, $zero, 108 # l
+SB $t0, 2($sp)
+ADDI $t0, $zero, 108 # l
+SB $t0, 3($sp)
+ADDI $t0, $zero, 111 # o
+SB $t0, 4($sp)
+ADDI $t0, $zero, 32 # (space)
+SB $t0, 5($sp)
+ADDI $t0, $zero, 119 # w
+SB $t0, 6($sp)
+ADDI $t0, $zero, 111 # o
+SB $t0, 7($sp)
+ADDI $t0, $zero, 114 # r
+SB $t0, 8($sp)
+ADDI $t0, $zero, 108 # l
+SB $t0, 9($sp)
+ADDI $t0, $zero, 100 # d
+SB $t0, 10($sp)
+ADDI $t0, $zero, 33 # !
+SB $t0, 11($sp)
+ADDI $t0, $zero, 0 # (null)
+SB $t0, 12($sp)
+
+ADDI $v0, $zero, 4 # 4 is for print string
+ADDI $a0, $sp, 0
+syscall 			# print to the log

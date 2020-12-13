@@ -1,0 +1,16 @@
+#Sample program that loops from 10 down to 0
+ADDI $s0, $zero, 10 #set s0 to 10
+ADDI $s1, $zero, 1  #use to decrement counter, $s0
+AGAIN: SUB $s0, $s0, $s1
+BEQ $s0, $zero, DONE
+J AGAIN
+DONE:  #To break out of the loop
+
+
+Here's a translation of the code into pseudocode:
+Set $s0 to 10.
+Set $s1 to 1.
+Subtract $s1 from $s0 and store result in $s0 (i.e. $s0 = $s0 - $s1).
+If $s0 equals 0, go to line 6.
+Else, go back to Line 3 and repeat.
+Program ends here.

@@ -1,0 +1,16 @@
+ADDI $sp, $sp, -11 # Set up stack
+ADDI $s3, $zero, 1 # Store 1 in a registrar
+ADDI $t0, $zero, 90 # Start $t0 at 90 (Z)
+ADDI $s2, $zero, 10 # Use to test when you reach 10
+SETUP: SB $t0, 0($sp) # Next letter in $t0
+ADDI $sp, $sp, 1 # Increment the stack
+SUB $s2, $s2, $s3 # Decrease the counter by 1
+ADDI $t0, $t0, 0 # Do not change letter
+BEQ $s2, $zero, DONE # Jump to done if $s2 == 0
+J SETUP # If not, jump back to SETUP for loop
+DONE: ADDI $t0, $zero, 0 # Null (0) to terminate string
+SB $t0, 0($sp) # Add null to stack
+ADDI $sp, $sp, -11 # Set up stack to print
+ADDI $v0, $zero, 4 # 4 is for print string
+ADDI $a0, $sp, 0 # Set $a0 to stack pointer for printing
+syscall # Print to the log
